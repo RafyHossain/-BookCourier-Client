@@ -1,7 +1,116 @@
 @import "tailwindcss";
-
 @plugin "daisyui";
 
-html {
-  scroll-behavior: smooth;
+/* =============================== */
+/* 📚 Premium Attractive Library Theme */
+/* =============================== */
+
+@plugin "daisyui/theme" {
+  name: "libraryPremium";
+  default: true;
+
+  /* Brand Colors */
+  --color-primary: #7f1d1d;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #c2410c;
+  --color-secondary-content: #ffffff;
+
+  --color-accent: #f59e0b;
+  --color-accent-content: #ffffff;
+
+  /* Background */
+  --color-base-100: #ffffff;
+  --color-base-200: #f8f5f2;
+  --color-base-300: #f1ede8;
+
+  /* Text */
+  --color-neutral: #1f2937;
+  --color-neutral-content: #ffffff;
+
+  /* Status Colors */
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #dc2626;
+
+  /* Border Radius */
+  --radius-box: 1rem;
+  --radius-btn: 0.75rem;
+  --radius-badge: 1rem;
+}
+
+/* ========================= */
+/* 🔥 Attractive Gradient Text */
+/* ========================= */
+
+.text-primary {
+  @apply bg-gradient-to-r from-[#7f1d1d] via-[#b91c1c] to-[#f87171] bg-clip-text text-transparent;
+}
+
+.text-secondary {
+  @apply bg-gradient-to-r from-[#c2410c] via-[#f59e0b] to-[#fde047] bg-clip-text text-transparent;
+}
+
+/* ========================= */
+/* 🔥 Premium Gradient Buttons */
+/* ========================= */
+
+.btn-primary {
+  @apply text-white 
+  bg-gradient-to-r from-[#7f1d1d] via-[#b91c1c] to-[#ef4444]
+  border-none shadow-lg transition-all duration-300;
+}
+
+.btn-primary:hover {
+  @apply scale-110 shadow-2xl;
+  box-shadow: 0 0 25px rgba(185, 28, 28, 0.4);
+}
+
+.btn-secondary {
+  @apply text-white 
+  bg-gradient-to-r from-[#c2410c] via-[#f59e0b] to-[#fde047]
+  border-none shadow-lg transition-all duration-300;
+}
+
+.btn-secondary:hover {
+  @apply scale-110 shadow-2xl;
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+}
+
+/* ========================= */
+/* 📖 Modern Card Style */
+/* ========================= */
+
+.card {
+  @apply bg-base-200 shadow-lg transition-all duration-300 rounded-2xl;
+}
+
+.card:hover {
+  @apply shadow-2xl;
+  transform: translateY(-6px);
+}
+
+/* ========================= */
+/* 📚 Modern Navbar */
+/* ========================= */
+
+.navbar {
+  @apply bg-base-100 shadow-md backdrop-blur-md;
+}
+
+/* ========================= */
+/* 📘 Section Spacing */
+/* ========================= */
+
+.section-padding {
+  @apply px-6 md:px-12 lg:px-20 py-12;
+}
+
+/* ========================= */
+/* ✨ Smooth Global Animation */
+/* ========================= */
+
+* {
+  transition: all 0.2s ease-in-out;
 }
