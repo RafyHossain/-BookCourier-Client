@@ -1,14 +1,16 @@
+import BannerSlider from "../../components/BannerSlider";
+
 const Home = () => {
     return (
-        <div className="max-w-7xl mx-auto py-20 px-6">
+        <div className="max-w-7xl mx-auto py-5 px-6">
+           
 
-            <h1 className="text-5xl font-bold text-center">
+            <h1 className="text-5xl font-bold text-center mb-5">
                <span className="text-secondary"> Welcome to</span> <span className="text-primary">BookCourier</span>
             </h1>
 
-            <p className="text-center mt-6 text-lg opacity-80">
-                Borrow books from your nearby libraries without stepping outside.
-            </p>
+            <BannerSlider></BannerSlider>
+
 
         </div>
     );
