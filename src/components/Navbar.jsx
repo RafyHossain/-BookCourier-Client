@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import logo from './../assets/bklogo.png';
 
 const Navbar = () => {
 
@@ -38,11 +39,21 @@ const Navbar = () => {
         <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
 
             {/* Logo */}
-            <div className="navbar-start">
-                <Link to="/" className="text-2xl font-bold text-primary flex items-center gap-2">
-                Logo <span>BookCourier</span>
-                </Link>
-            </div>
+         <div className="navbar-start">
+  <Link to="/" className="flex items-center">
+
+    <div className="overflow-hidden h-14 w-20 flex items-center justify-center">
+      <img
+        src={logo}
+        alt="BookCourier Logo"
+        className="object-cover  scale-150"
+      />
+    </div>
+
+  </Link>
+</div>
+
+
 
             {/* Desktop Menu */}
             <div className="navbar-center hidden lg:flex">
