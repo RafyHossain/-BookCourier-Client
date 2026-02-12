@@ -1,22 +1,26 @@
-import { Outlet } from "react-router";
+import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
 const AuthLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f5f2]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-indigo-50">
 
       {/* Navbar */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center px-4 py-10">
+      <main className="flex-1 flex items-center justify-center px-4 py-16">
 
-        <div className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white rounded-2xl shadow-xl p-8 md:p-10 transition-all duration-300">
-
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-md"
+        >
           <Outlet />
-
-        </div>
+        </motion.div>
 
       </main>
 
