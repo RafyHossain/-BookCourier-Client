@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 .env
 
-AdminRoute.jsx
+
 LibrarianRoute.jsx
 DashboardLayout.jsx
 AddBook
