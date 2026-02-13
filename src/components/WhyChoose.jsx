@@ -45,7 +45,7 @@ const WhyChooseUs = () => {
             Our Values
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-4 mb-4">
-            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">BookFlow?</span>
+            Why Choose <span className="text-transparent text-primary">BookFlow?</span>
           </h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             We are more than just a bookstore. We are a community dedicated to providing the best reading experience.

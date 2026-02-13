@@ -44,7 +44,7 @@ const HowItWorks = () => {
             Process
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-3 mb-4">
-            How It <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">Works</span>
+            How It <span className="text-transparent text-primary">Works</span>
           </h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             Get your favorite books in just 4 simple steps. We make reading accessible and hassle-free.
