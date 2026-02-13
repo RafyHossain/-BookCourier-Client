@@ -101,7 +101,7 @@ const Coverage = () => {
             Locations
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-4 mb-4">
-            Nationwide <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">Coverage</span>
+            Nationwide <span className="text-transparent text-primary">Coverage</span>
           </h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             We deliver books to every corner of Bangladesh. Hover over markers to check your area.

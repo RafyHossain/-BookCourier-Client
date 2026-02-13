@@ -38,7 +38,7 @@ const LatestBooks = () => {
         >
           <h2 className="text-4xl md:text-5xl font-black text-slate-900">
             Latest{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400">
+            <span className="text-transparent text-primary">
               Books
             </span>
           </h2>
@@ -101,7 +101,7 @@ const LatestBooks = () => {
 
                     <Link
                       to={`/books/${book._id}`}
-                      className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-red-600 hover:text-white transition-all duration-300"
+                      className="px-4 py-2 rounded-xl btn-primary hover:bg-red-600 hover:text-white transition-all duration-300"
                     >
                       Details
                     </Link>
@@ -131,7 +131,7 @@ const LatestBooks = () => {
             <Link
               to="/books"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl 
-              bg-gradient-to-r from-red-600 to-red-500 text-white font-bold 
+              btn-primary text-white font-bold 
               shadow-lg shadow-red-500/30 hover:scale-105 transition-all duration-300"
             >
               View All Books <FaArrowRight />
