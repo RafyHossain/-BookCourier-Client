@@ -27,7 +27,7 @@ const LatestBooks = () => {
     <div className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
 
-        <h2 className="text-3xl font-bold text-center mb-12">
+        <h2 className="text-5xl text-primary font-bold text-center mb-12">
           Latest Books
         </h2>
 
