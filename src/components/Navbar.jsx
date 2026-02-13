@@ -65,7 +65,7 @@ const Navbar = () => {
   const navLinkClass = ({ isActive }) =>
     `px-5 py-2 rounded-lg font-bold transition-all duration-300 text-sm ${
       isActive
-        ? "bg-gradient-to-r from-red-700 to-red-500 text-white shadow-lg shadow-red-500/40 transform scale-105"
+        ? "btn-primary text-white shadow-lg shadow-red-500/40 transform scale-105"
         : "text-base-content/70 hover:text-red-600 hover:bg-red-50"
     }`;
 
@@ -170,7 +170,7 @@ const Navbar = () => {
 
             <button
               onClick={handleLogout}
-              className="btn btn-sm text-white font-bold px-6 rounded-lg bg-gradient-to-r from-red-700 to-red-500 hover:from-red-800 hover:to-red-600 shadow-md shadow-red-500/30 border-none"
+              className="btn btn-sm text-white font-bold px-6 rounded-lg btn-primary hover:from-red-800 hover:to-red-600 shadow-md shadow-red-500/30 border-none"
             >
               Logout
             </button>
