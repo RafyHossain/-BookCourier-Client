@@ -39,7 +39,7 @@ const ManageUsers = () => {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-indigo-600">
+      <h2 className="text-3xl font-bold text-primary">
         Manage Users
       </h2>
 

@@ -16,7 +16,6 @@ import {
   FaBookOpen,
   FaChevronLeft,
   FaSignOutAlt,
-  FaClipboardList,
   FaTruck
 } from "react-icons/fa";
 
@@ -70,9 +69,9 @@ const DashboardLayout = () => {
         <div className="h-20 flex items-center justify-between px-6 border-b">
           {!collapsed && (
             <Link to="/" className="flex items-center gap-2">
-              <img src={logo} className="h-8" />
-              <span className="text-xl font-bold text-red-600">
-                BookFlow
+              <img src={logo} className="h-8" alt="logo" />
+              <span className="text-xl font-bold text-primary">
+                BookCourier
               </span>
             </Link>
           )}
@@ -84,31 +83,50 @@ const DashboardLayout = () => {
           </button>
         </div>
 
-        {/* Navigation */}
+        {/* ================= NAVIGATION ================= */}
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
 
           <NavItem to="/" icon={<FaHome />} label="Home" collapsed={collapsed} />
 
-          <SectionLabel label="Personal" collapsed={collapsed} />
-
-          <NavItem to="/dashboard/my-profile" icon={<FaUser />} label="My Profile" collapsed={collapsed} />
-          <NavItem to="/dashboard/my-orders" icon={<FaShoppingCart />} label="My Orders" collapsed={collapsed} />
-          <NavItem to="/dashboard/invoices" icon={<FaFileInvoice />} label="Invoices" collapsed={collapsed} />
-
-          {/* USER */}
+          {/* ================= USER ================= */}
           {role === "user" && (
-            <NavItem
-              to="/dashboard/librarian-request"
-              icon={<FaBook />}
-              label="Become Librarian"
-              collapsed={collapsed}
-            />
+            <>
+              <SectionLabel label="User Panel" collapsed={collapsed} />
+
+              <NavItem
+                to="/dashboard/my-profile"
+                icon={<FaUser />}
+                label="My Profile"
+                collapsed={collapsed}
+              />
+
+              <NavItem
+                to="/dashboard/my-orders"
+                icon={<FaShoppingCart />}
+                label="My Orders"
+                collapsed={collapsed}
+              />
+
+              <NavItem
+                to="/dashboard/invoices"
+                icon={<FaFileInvoice />}
+                label="Invoices"
+                collapsed={collapsed}
+              />
+            </>
           )}
 
-          {/* LIBRARIAN */}
+          {/* ================= LIBRARIAN ================= */}
           {role === "librarian" && (
             <>
-              <SectionLabel label="Librarian" collapsed={collapsed} />
+              <SectionLabel label="Librarian Panel" collapsed={collapsed} />
+
+              <NavItem
+                to="/dashboard/my-profile"
+                icon={<FaUser />}
+                label="My Profile"
+                collapsed={collapsed}
+              />
 
               <NavItem
                 to="/dashboard/add-book"
@@ -133,41 +151,43 @@ const DashboardLayout = () => {
             </>
           )}
 
-          {/* ADMIN */}
+          {/* ================= ADMIN ================= */}
           {role === "admin" && (
             <>
               <SectionLabel label="Admin Panel" collapsed={collapsed} />
 
               <NavItem
+                to="/dashboard/my-profile"
+                icon={<FaUser />}
+                label="My Profile"
+                collapsed={collapsed}
+              />
+
+              <NavItem
                 to="/dashboard/manage-users"
                 icon={<FaUsers />}
-                label="Manage Users"
+                label="All Users"
                 collapsed={collapsed}
               />
 
               <NavItem
                 to="/dashboard/manage-books"
                 icon={<FaBookOpen />}
-                label="Inventory"
-                collapsed={collapsed}
-              />
-
-              <NavItem
-                to="/dashboard/librarian-requests"
-                icon={<FaClipboardList />}
-                label="Librarian Requests"
+                label="Manage Books"
                 collapsed={collapsed}
               />
             </>
           )}
+
         </div>
 
-        {/* Footer */}
+        {/* ================= FOOTER ================= */}
         <div className="p-4 border-t">
           <div className={`flex items-center gap-3 ${collapsed && "justify-center"}`}>
             <img
               src={user?.photoURL || "https://i.ibb.co/2kR8V2s/user.png"}
               className="w-9 h-9 rounded-full"
+              alt="user"
             />
             {!collapsed && (
               <div className="flex-1">
@@ -204,7 +224,7 @@ const DashboardLayout = () => {
             <FaBars size={20} />
           </button>
 
-          <h1 className="text-lg font-bold">
+          <h1 className="text-lg font-bold text-secondary">
             Dashboard
           </h1>
 
@@ -254,9 +274,7 @@ const NavItem = ({ to, icon, label, collapsed }) => (
     }
   >
     <span className="text-lg">{icon}</span>
-    {!collapsed && (
-      <span className="font-medium">{label}</span>
-    )}
+    {!collapsed && <span className="font-medium">{label}</span>}
   </NavLink>
 );
 

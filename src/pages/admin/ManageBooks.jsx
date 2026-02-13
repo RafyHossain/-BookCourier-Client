@@ -7,6 +7,7 @@ const ManageBooks = () => {
   const axiosSecure = useAxiosSecure();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
 
   const fetchBooks = async () => {
     try {
@@ -15,6 +16,7 @@ const ManageBooks = () => {
       setBooks(res.data);
     } catch (error) {
       console.error(error);
+      Swal.fire("Error", "Failed to load books", "error");
     } finally {
       setLoading(false);
     }
@@ -24,6 +26,12 @@ const ManageBooks = () => {
     fetchBooks();
   }, []);
 
+  //  Filter Books
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  //  Toggle Publish
   const handleStatusToggle = async (book) => {
     const newStatus =
       book.status === "published" ? "unpublished" : "published";
@@ -33,19 +41,26 @@ const ManageBooks = () => {
         status: newStatus,
       });
 
+      // Optimistic UI update
+      setBooks((prev) =>
+        prev.map((b) =>
+          b._id === book._id ? { ...b, status: newStatus } : b
+        )
+      );
+
       Swal.fire({
         icon: "success",
         title: `Book ${newStatus}`,
-        timer: 1200,
+        timer: 1000,
         showConfirmButton: false,
       });
 
-      fetchBooks();
     } catch {
       Swal.fire("Error", "Failed to update status", "error");
     }
   };
 
+  //  Delete Book
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: "Delete this book?",
@@ -61,14 +76,16 @@ const ManageBooks = () => {
     try {
       await axiosSecure.delete(`/books/admin/${id}`);
 
+      // Optimistic UI update
+      setBooks((prev) => prev.filter((b) => b._id !== id));
+
       Swal.fire({
         icon: "success",
         title: "Book Deleted",
-        timer: 1200,
+        timer: 1000,
         showConfirmButton: false,
       });
 
-      fetchBooks();
     } catch {
       Swal.fire("Error", "Delete failed", "error");
     }
@@ -83,13 +100,24 @@ const ManageBooks = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h2 className="text-4xl font-bold text-indigo-700">
+        <h2 className="text-4xl font-bold text-primary">
           Manage Books
         </h2>
         <p className="text-slate-500 mt-2">
-          Control publishing status and manage inventory
+          Total Books: {books.length}
         </p>
       </motion.div>
+
+      {/* Search */}
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Search by book title..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:w-96 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+      </div>
 
       {/* Card */}
       <motion.div
@@ -101,13 +129,12 @@ const ManageBooks = () => {
           <div className="text-center py-20 text-indigo-600 font-medium">
             Loading Books...
           </div>
-        ) : books.length === 0 ? (
+        ) : filteredBooks.length === 0 ? (
           <div className="text-center py-20 text-slate-400 text-lg">
-            No books available
+            No books found
           </div>
         ) : (
           <div className="overflow-x-auto">
-
             <table className="w-full text-sm">
 
               <thead>
@@ -121,13 +148,11 @@ const ManageBooks = () => {
               </thead>
 
               <tbody>
-                {books.map((book) => (
+                {filteredBooks.map((book) => (
                   <tr
                     key={book._id}
                     className="border-b border-slate-100 hover:bg-slate-50 transition"
                   >
-
-                    {/* Book Info */}
                     <td className="py-4 flex items-center gap-4">
                       <img
                         src={book.image}
@@ -147,7 +172,6 @@ const ManageBooks = () => {
                       ৳{book.price}
                     </td>
 
-                    {/* Status Badge */}
                     <td>
                       <span
                         className={`px-3 py-1 text-xs font-semibold rounded-full ${
@@ -160,7 +184,6 @@ const ManageBooks = () => {
                       </span>
                     </td>
 
-                    {/* Actions */}
                     <td className="text-center space-x-2">
 
                       <button
@@ -184,13 +207,11 @@ const ManageBooks = () => {
                       </button>
 
                     </td>
-
                   </tr>
                 ))}
               </tbody>
 
             </table>
-
           </div>
         )}
       </motion.div>
