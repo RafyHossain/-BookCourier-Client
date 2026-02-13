@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { FaSearch } from "react-icons/fa";
 
 const AllBooks = () => {
   const axiosSecure = useAxiosSecure();
@@ -48,76 +50,123 @@ const AllBooks = () => {
       });
 
     } catch (error) {
-      console.error(error);
       Swal.fire("Error", "Order failed", "error");
     }
   };
 
   return (
-    <div className="p-6">
+    <section className="py-20 bg-gradient-to-b from-white to-slate-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* Search & Sort */}
-      <div className="flex gap-4 mb-6">
-        <input
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search Book"
-          className="input input-bordered w-full max-w-xs"
-        />
-
-        <select
-          onChange={(e) => setSort(e.target.value)}
-          className="select select-bordered"
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-14 text-center"
         >
-          <option value="desc">Price High → Low</option>
-          <option value="asc">Price Low → High</option>
-        </select>
-      </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900">
+            Explore{" "}
+            <span className="text-transparent bg-clip-text text-primary">
+              All Books
+            </span>
+          </h2>
+          <p className="text-slate-500 mt-4">
+            Browse through our complete collection
+          </p>
+        </motion.div>
 
-      {/* Loading */}
-      {loading && (
-        <div className="text-center text-lg font-semibold">
-          Loading books...
+        {/* Search & Sort */}
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10">
+
+          <div className="relative w-full md:w-96">
+            <FaSearch className="absolute left-4 top-4 text-slate-400" />
+            <input
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search books..."
+              className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+            />
+          </div>
+
+          <select
+            onChange={(e) => setSort(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <option value="desc">Price High to Low</option>
+            <option value="asc">Price Low to High</option>
+          </select>
+
         </div>
-      )}
 
-      {/* Book Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {!loading &&
-          books.map((book) => (
-            <div key={book._id} className="card shadow-lg bg-base-200">
-              <figure>
-                <img
-                  src={book.image}
-                  alt={book.title}
-                  className="h-56 w-full object-cover"
-                />
-              </figure>
+        {/* Loading */}
+        {loading && (
+          <div className="text-center py-20 text-lg font-semibold">
+            Loading books...
+          </div>
+        )}
 
-              <div className="card-body">
-                <h2 className="card-title">{book.title}</h2>
-                <p>Author: {book.author}</p>
-                <p className="font-semibold">Price: ৳{book.price}</p>
+        {/* Books Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {!loading &&
+            books.map((book, index) => (
+              <motion.div
+                key={book._id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="group bg-white rounded-3xl shadow-sm hover:shadow-xl border border-slate-100 overflow-hidden transition-all duration-500"
+              >
 
-                <Link
-                  to={`/books/${book._id}`}
-                  className="btn btn-outline btn-primary mt-2"
-                >
-                  Details
-                </Link>
+                {/* Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={book.image}
+                    alt={book.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
 
-                
-              </div>
-            </div>
-          ))}
-      </div>
+                {/* Content */}
+                <div className="p-6 flex flex-col">
 
-      {/* No Data */}
-      {!loading && books.length === 0 && (
-        <div className="text-center mt-10 text-gray-500">
-          No books found.
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 line-clamp-1 group-hover:text-red-600 transition-colors">
+                    {book.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-500 mb-3">
+                    By {book.author}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-auto">
+
+                    <span className="text-2xl font-black text-slate-900">
+                      <span className="text-red-600 text-lg">৳ </span>
+                      {book.price}
+                    </span>
+
+                    <Link
+                      to={`/books/${book._id}`}
+                      className="px-4 py-2 rounded-xl btn-primary text-slate-700 font-semibold hover:bg-red-600 hover:text-white transition-all duration-300"
+                    >
+                      Details
+                    </Link>
+
+                  </div>
+
+                </div>
+
+              </motion.div>
+            ))}
         </div>
-      )}
-    </div>
+
+        {/* No Books */}
+        {!loading && books.length === 0 && (
+          <div className="text-center mt-20 text-slate-500">
+            No books found.
+          </div>
+        )}
+
+      </div>
+    </section>
   );
 };
 
