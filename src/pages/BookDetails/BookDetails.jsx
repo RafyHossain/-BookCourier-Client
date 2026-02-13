@@ -141,7 +141,7 @@ const BookDetails = () => {
           <button
             disabled={ordered}
             onClick={() => setShowModal(true)}
-            className="btn bg-red-600 text-white w-full"
+            className="btn btn-primary text-white w-full"
           >
             {ordered ? "Already Ordered" : <>
               <FaShoppingCart /> Order Now

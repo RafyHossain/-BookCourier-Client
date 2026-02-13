@@ -27,7 +27,7 @@ const MyOrder = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+      <h2 className="text-2xl text-primary font-bold mb-6">My Orders</h2>
 
       <table className="table w-full">
         <thead>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../../components/Loading";
 
 const Invoices = () => {
   const axiosSecure = useAxiosSecure();
@@ -28,17 +29,13 @@ const Invoices = () => {
   }, [axiosSecure]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-80">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (
     <div className="p-6">
 
-      <h2 className="text-3xl font-bold mb-8">
+      <h2 className="text-3xl text-primary font-bold mb-8">
         Payment Invoices
       </h2>
 

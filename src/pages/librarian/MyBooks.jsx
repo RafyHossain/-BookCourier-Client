@@ -32,7 +32,7 @@ const MyBooks = () => {
   return (
     <div className="space-y-6">
 
-      <h2 className="text-3xl font-bold">
+      <h2 className="text-3xl text-primary font-bold">
         My Books
       </h2>
 

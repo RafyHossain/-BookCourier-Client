@@ -11,13 +11,18 @@ const Register = () => {
   const { registerUser, googleLogin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { register, handleSubmit, watch } = useForm();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const imageFile = watch("photo");
-
   const from = location.state?.from?.pathname || "/";
 
   const onSubmit = async (data) => {
@@ -34,9 +39,7 @@ const Register = () => {
           `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`,
           formData,
           {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
+            headers: { "content-type": "multipart/form-data" },
           }
         );
 
@@ -69,18 +72,8 @@ const Register = () => {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-
       await googleLogin();
-
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful 🎉",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
       navigate(from, { replace: true });
-
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     } finally {
@@ -102,20 +95,37 @@ const Register = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7f1d1d]"
-            {...register("name", { required: true })}
-          />
+          {/* Name */}
+          <div>
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7f1d1d]"
+              {...register("name", { required: "Name is required" })}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.name.message}
+              </p>
+            )}
+          </div>
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7f1d1d]"
-            {...register("email", { required: true })}
-          />
+          {/* Email */}
+          <div>
+            <input
+              type="email"
+              placeholder="Email Address"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7f1d1d]"
+              {...register("email", { required: "Email is required" })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
 
+          {/* Photo */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Upload Profile Photo
@@ -142,12 +152,24 @@ const Register = () => {
             )}
           </div>
 
+          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7f1d1d]"
-              {...register("password", { required: true, minLength: 6 })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Minimum 6 characters required",
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                  message:
+                    "Must include uppercase, lowercase & number",
+                },
+              })}
             />
 
             <span
@@ -156,8 +178,15 @@ const Register = () => {
             >
               {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </span>
+
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
+          {/* Button */}
           <button
             disabled={loading}
             className="w-full py-3 rounded-xl text-white font-semibold bg-[#7f1d1d] hover:bg-[#991b1b] transition"

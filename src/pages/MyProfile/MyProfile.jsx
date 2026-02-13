@@ -78,7 +78,7 @@ const MyProfile = () => {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white shadow-2xl rounded-3xl p-10 space-y-8"
       >
-        <h2 className="text-3xl font-bold text-center">
+        <h2 className="text-3xl text-primary font-bold text-center">
           My Profile
         </h2>
 
