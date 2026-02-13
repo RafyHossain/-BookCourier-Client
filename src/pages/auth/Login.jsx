@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useLocation } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -15,8 +15,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Redirect to previous route if exists
-  const from = location.state || "/";
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = async (data) => {
     try {
@@ -31,7 +30,7 @@ const Login = () => {
         timer: 1500,
       });
 
-      navigate(from);
+      navigate(from, { replace: true });
 
     } catch (error) {
       Swal.fire("Login Failed", error.message, "error");
@@ -42,6 +41,8 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
+      setLoading(true);
+
       await googleLogin();
 
       Swal.fire({
@@ -51,20 +52,21 @@ const Login = () => {
         timer: 1500,
       });
 
-      navigate(from);
+      navigate(from, { replace: true });
 
     } catch (error) {
       Swal.fire("Error", error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center py-12 px-4">
-
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
 
         <h2 className="text-3xl font-bold text-center text-[#7f1d1d] mb-2">
-          Welcome Back 
+          Welcome Back
         </h2>
 
         <p className="text-center text-gray-500 mb-8 text-sm">
@@ -73,7 +75,6 @@ const Login = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-          {/* Email */}
           <input
             type="email"
             placeholder="Email Address"
@@ -81,7 +82,6 @@ const Login = () => {
             {...register("email", { required: true })}
           />
 
-          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -98,7 +98,6 @@ const Login = () => {
             </span>
           </div>
 
-          {/* Login Button */}
           <button
             disabled={loading}
             className="w-full py-3 rounded-xl text-white font-semibold bg-[#7f1d1d] hover:bg-[#991b1b] transition"
@@ -108,14 +107,12 @@ const Login = () => {
 
         </form>
 
-        {/* Divider */}
         <div className="flex items-center my-6">
           <div className="flex-grow border-t"></div>
           <span className="mx-3 text-gray-400 text-sm">OR</span>
           <div className="flex-grow border-t"></div>
         </div>
 
-        {/* Google Login */}
         <button
           onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-xl py-3 hover:bg-gray-50 transition"
@@ -124,7 +121,6 @@ const Login = () => {
           Continue with Google
         </button>
 
-        {/* Redirect to Register */}
         <p className="text-center text-gray-600 text-sm mt-6">
           Don't have an account?
           <Link

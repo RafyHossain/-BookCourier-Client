@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
@@ -13,20 +13,22 @@ import BookDetails from "../pages/BookDetails/BookDetails";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-// User Dashboard
+// Dashboard Pages
+import DashboardHome from "../pages/Dashboard/DashboardHome";
 import MyOrder from "../pages/MyOrder/MyOrder";
 import MyProfile from "../pages/MyProfile/MyProfile";
 import Invoices from "../pages/Invoices/Invoices";
 import Payment from "../Payment/Payment";
 import LibrarianRequest from "../pages/LibrarianRequest/LibrarianRequest";
+import MyWishlist from "../pages/MyWishlist/MyWishlist";
 
-// Librarian Pages
+// Librarian
 import AddBook from "../pages/AddBook/AddBook";
 import MyBooks from "../pages/librarian/MyBooks";
 import EditBook from "../pages/librarian/EditBook";
 import LibrarianOrders from "../pages/librarian/LibrarianOrders";
 
-// Admin Pages
+// Admin
 import ManageUsers from "../pages/ManageUsers/ManageUsers";
 import ManageBooks from "../pages/admin/ManageBooks";
 import LibrarianRequests from "../pages/admin/LibrarianRequests";
@@ -36,7 +38,11 @@ import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
 
+// Optional 404 Page
+// import NotFound from "../pages/NotFound/NotFound";
+
 export const router = createBrowserRouter([
+
   // ================= PUBLIC =================
   {
     path: "/",
@@ -44,7 +50,15 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "books", element: <AllBooks /> },
-      { path: "books/:id", element: <BookDetails /> },
+
+      {
+        path: "books/:id",
+        element: (
+          <PrivateRoute>
+            <BookDetails />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -68,27 +82,22 @@ export const router = createBrowserRouter([
     ),
     children: [
 
+     
+      {
+        index: true,
+        element: <DashboardHome />
+      },
+
+      // -------- PROFILE --------
+      { path: "my-profile", element: <MyProfile /> },
+      { path: "overview", element: <DashboardHome></DashboardHome> },
+
       // -------- USER --------
-      {
-        path: "my-orders",
-        element: <MyOrder />,
-      },
-      {
-        path: "payment/:id",
-        element: <Payment />,
-      },
-      {
-        path: "my-profile",
-        element: <MyProfile />,
-      },
-      {
-        path: "invoices",
-        element: <Invoices />,
-      },
-      {
-        path: "librarian-request",
-        element: <LibrarianRequest />,
-      },
+      { path: "my-orders", element: <MyOrder /> },
+      { path: "payment/:id", element: <Payment /> },
+      { path: "invoices", element: <Invoices /> },
+      { path: "wishlist", element: <MyWishlist /> },
+      { path: "librarian-request", element: <LibrarianRequest /> },
 
       // -------- LIBRARIAN --------
       {
@@ -151,4 +160,11 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
+  // Optional Catch-All Route
+  // {
+  //   path: "*",
+  //   element: <NotFound />
+  // }
+
 ]);

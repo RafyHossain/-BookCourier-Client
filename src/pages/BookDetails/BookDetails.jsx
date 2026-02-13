@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import {
-  FaShoppingCart,
-  FaUser,
-  FaPhone,
-  FaMapMarkerAlt
-} from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaStar, FaHeart } from "react-icons/fa";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -18,208 +12,219 @@ const BookDetails = () => {
 
   const [book, setBook] = useState(null);
   const [ordered, setOrdered] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  // Fetch Book
+  // ================= FETCH BOOK =================
   useEffect(() => {
     axiosSecure.get(`/books/${id}`)
-      .then(res => setBook(res.data))
-      .finally(() => setLoading(false));
+      .then(res => setBook(res.data));
   }, [id, axiosSecure]);
 
-  // Check Order
+  // ================= CHECK ORDER =================
   useEffect(() => {
     if (!user) return;
+
     axiosSecure.get(`/orders/check/${id}`)
-      .then(res => setOrdered(res.data));
+      .then(res => setOrdered(res.data?.ordered || false))
+      .catch(() => setOrdered(false));
+
   }, [id, user, axiosSecure]);
 
-  // Body Scroll Lock
+  // ================= CHECK WISHLIST =================
   useEffect(() => {
-    document.body.style.overflow = showModal ? "hidden" : "auto";
-  }, [showModal]);
+    if (!user) return;
 
-  const handlePlaceOrder = async () => {
+    axiosSecure.get("/wishlist/my")
+      .then(res => {
+        const exists = res.data.find(item => item._id === id);
+        setWishlisted(!!exists);
+      });
+  }, [id, user, axiosSecure]);
+
+  // ================= FETCH REVIEWS =================
+  const loadReviews = () => {
+    axiosSecure.get(`/reviews/${id}`)
+      .then(res => setReviews(res.data));
+  };
+
+  useEffect(() => {
+    loadReviews();
+  }, [id]);
+
+  // ================= ADD WISHLIST =================
+  const handleWishlist = async () => {
+    if (!user) return Swal.fire("Login required");
+
+    try {
+      await axiosSecure.post("/wishlist", { bookId: id });
+      setWishlisted(true);
+      Swal.fire("Added to Wishlist", "", "success");
+    } catch (error) {
+      Swal.fire(error.response?.data?.message || "Error");
+    }
+  };
+
+  // ================= PLACE ORDER =================
+  const handleOrder = async () => {
     if (!phone || !address) {
-      Swal.fire("Missing Info", "Fill all fields", "warning");
-      return;
+      return Swal.fire("Fill phone & address");
     }
 
     try {
       await axiosSecure.post("/orders", {
-        bookId: book._id,
+        bookId: id,
         phone,
-        address,
-        price: book.price,
-        bookTitle: book.title
+        address
       });
 
-      Swal.fire("Success", "Order Placed!", "success");
       setOrdered(true);
       setShowModal(false);
-      setPhone("");
-      setAddress("");
-    } catch {
-      Swal.fire("Error", "Order failed", "error");
+      Swal.fire("Order placed!", "", "success");
+
+    } catch (error) {
+      Swal.fire(error.response?.data?.message || "Order failed");
     }
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner text-red-500"></span>
-      </div>
-    );
+  // ================= ADD REVIEW =================
+  const handleReview = async () => {
+    try {
+      await axiosSecure.post("/reviews", {
+        bookId: id,
+        rating,
+        comment
+      });
 
-  if (!book)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-xl font-bold">
-        Book Not Found
-      </div>
-    );
+      Swal.fire("Review added!", "", "success");
+      setComment("");
+      loadReviews();
+
+    } catch (error) {
+      Swal.fire(error.response?.data?.message || "Review failed");
+    }
+  };
+
+  if (!book) return <div className="text-center mt-20">Loading...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-white p-6">
+    <div className="max-w-5xl mx-auto py-20 px-6 space-y-12">
 
-      {/* ================= CARD ================= */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full grid md:grid-cols-2 overflow-hidden"
-      >
-        {/* Image Section */}
-        <div className="bg-slate-50 flex items-center justify-center p-8">
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            src={book.image}
-            alt={book.title}
-            className="rounded-2xl shadow-lg max-h-96 object-cover"
-          />
-        </div>
+      {/* BOOK INFO */}
+      <div className="grid md:grid-cols-2 gap-10 bg-white p-8 rounded-xl shadow-lg">
+        <img src={book.image} className="rounded-xl" alt="" />
 
-        {/* Content Section */}
-        <div className="p-10 flex flex-col justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-slate-900 mb-3">
-              {book.title}
-            </h1>
+        <div className="space-y-4">
+          <h1 className="text-3xl font-bold">{book.title}</h1>
+          <p className="flex items-center gap-2 text-gray-500">
+            <FaUser /> {book.author}
+          </p>
+          <p className="text-2xl text-red-600 font-bold">৳{book.price}</p>
 
-            <div className="flex items-center gap-2 text-slate-500 mb-4">
-              <FaUser /> {book.author}
-            </div>
-
-            <p className="text-slate-600 mb-6 leading-relaxed">
-              {book.description || "A wonderful book to enrich your knowledge."}
-            </p>
-
-            <p className="text-3xl font-bold text-slate-900 mb-6">
-              ৳{book.price}
-            </p>
-          </div>
-
+          {/* Wishlist */}
           <button
-            onClick={() => setShowModal(true)}
+            onClick={handleWishlist}
+            disabled={wishlisted}
+            className="btn btn-outline btn-error w-full"
+          >
+            <FaHeart />
+            {wishlisted ? "Already in Wishlist" : "Add to Wishlist"}
+          </button>
+
+          {/* Order */}
+          <button
             disabled={ordered}
-            className={`btn btn-primary py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-3 transition-all duration-200
-              ${ordered
-                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg hover:scale-105 active:scale-95"
-              }`}
+            onClick={() => setShowModal(true)}
+            className="btn bg-red-600 text-white w-full"
           >
             {ordered ? "Already Ordered" : <>
               <FaShoppingCart /> Order Now
             </>}
           </button>
         </div>
-      </motion.div>
+      </div>
 
-      {/* ================= MODAL ================= */}
-      <AnimatePresence>
-        {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* REVIEWS */}
+      <div className="bg-white p-8 rounded-xl shadow-lg space-y-6">
+        <h2 className="text-xl font-bold">Reviews</h2>
 
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowModal(false)}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        {reviews.length === 0 && <p>No reviews yet</p>}
+
+        {reviews.map(r => (
+          <div key={r._id} className="border-b pb-3">
+            <div className="flex gap-1 text-yellow-500">
+              {[...Array(r.rating)].map((_, i) => <FaStar key={i} />)}
+            </div>
+            <p>{r.comment}</p>
+          </div>
+        ))}
+
+        {/* Review Form */}
+        {ordered && (
+          <div className="space-y-3 pt-4">
+            <select
+              value={rating}
+              onChange={e => setRating(Number(e.target.value))}
+              className="select select-bordered"
+            >
+              {[5,4,3,2,1].map(n => (
+                <option key={n} value={n}>{n} Stars</option>
+              ))}
+            </select>
+
+            <textarea
+              value={comment}
+              onChange={e => setComment(e.target.value)}
+              placeholder="Write your review..."
+              className="textarea textarea-bordered w-full"
             />
 
-            {/* Modal Card */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6"
-            >
-              <h2 className="text-2xl font-bold text-center mb-6">
-                Confirm Order
-              </h2>
-
-              <div className="space-y-4">
-
-                <input
-                  value={user?.displayName || ""}
-                  readOnly
-                  className="input input-bordered w-full bg-slate-100"
-                />
-
-                <input
-                  value={user?.email || ""}
-                  readOnly
-                  className="input input-bordered w-full bg-slate-100"
-                />
-
-                <div className="relative">
-                  <FaPhone className="absolute left-3 top-4 text-slate-400" />
-                  <input
-                    placeholder="Phone Number"
-                    className="input input-bordered w-full pl-10"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
-
-                <div className="relative">
-                  
-                  <textarea
-                    placeholder="Delivery Address"
-                    className="input input-bordered w-full pl-10 h-24 resize-none"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </div>
-
-                {/* Buttons */}
-                <div className="flex gap-3 pt-2">
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="btn btn-outline flex-1"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    onClick={handlePlaceOrder}
-                    className="btn bg-red-600 text-white flex-1"
-                  >
-                    Confirm
-                  </button>
-                </div>
-
-              </div>
-            </motion.div>
-
+            <button onClick={handleReview} className="btn btn-primary">
+              Submit Review
+            </button>
           </div>
         )}
-      </AnimatePresence>
+      </div>
+
+      {/* ORDER MODAL */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-xl w-96 space-y-4">
+            <h3 className="text-lg font-bold">Confirm Order</h3>
+
+            <input value={user?.displayName || ""} readOnly className="input input-bordered w-full" />
+            <input value={user?.email || ""} readOnly className="input input-bordered w-full" />
+
+            <input
+              placeholder="Phone"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              className="input input-bordered w-full"
+            />
+
+            <textarea
+              placeholder="Address"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+              className="textarea textarea-bordered w-full"
+            />
+
+            <div className="flex gap-2">
+              <button onClick={() => setShowModal(false)} className="btn btn-outline flex-1">
+                Cancel
+              </button>
+              <button onClick={handleOrder} className="btn btn-primary flex-1">
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

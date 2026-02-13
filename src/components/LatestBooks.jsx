@@ -10,7 +10,6 @@ const LatestBooks = () => {
   useEffect(() => {
     const fetchLatestBooks = async () => {
       try {
-        
         const res = await axiosSecure.get("/books/latest");
         setBooks(res.data);
       } catch (error) {
@@ -24,68 +23,86 @@ const LatestBooks = () => {
   }, [axiosSecure]);
 
   return (
-    <div className="py-20 bg-white">
+    <section className="py-20 bg-base-100">
       <div className="max-w-7xl mx-auto px-6">
 
-        <h2 className="text-5xl text-primary font-bold text-center mb-12">
-          Latest Books
-        </h2>
+        {/* Header */}
+        <div className="mb-10 text-center">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-4 mb-4">
+            Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">Books</span>
+          </h2>
+         
+          <p className="text-gray-500 mt-2">
+            Explore our newest arrivals
+          </p>
+        </div>
 
-        {loading ? (
-          <div className="text-center py-10 text-primary font-medium">
-            Loading...
+        {/* Loading */}
+        {loading && (
+          <div className="text-center text-lg font-semibold">
+            Loading latest books...
           </div>
-        ) : books.length === 0 ? (
-          <div className="text-center text-slate-400">
-            No books available
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        )}
 
-            {books.map(book => (
+        {/* Books Grid */}
+        <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-6">
+          {!loading &&
+            books.map((book) => (
               <div
                 key={book._id}
-                className="bg-slate-50 rounded-2xl shadow-md p-4 hover:shadow-xl transition"
+                className="card shadow-lg bg-base-200 hover:shadow-xl transition"
               >
-                <img
-                  src={book.image}
-                  alt={book.title}
-                  className="h-48 w-full object-cover rounded-xl mb-4"
-                />
+                <figure>
+                  <img
+                    src={book.image}
+                    alt={book.title}
+                    className="h-56 w-full object-cover"
+                  />
+                </figure>
 
-                <h3 className="font-bold text-lg mb-1 truncate">
-                  {book.title}
-                </h3>
+                <div className="card-body">
+                  <h2 className="card-title line-clamp-1">
+                    {book.title}
+                  </h2>
 
-                <p className="text-sm text-slate-500 mb-2">
-                  {book.author}
-                </p>
+                  <p className="text-sm text-gray-600">
+                    Author: {book.author}
+                  </p>
 
-                <p className="font-bold text-primary mb-4">
-                  ৳{book.price}
-                </p>
+                  <p className="font-semibold text-red-600">
+                    ৳{book.price}
+                  </p>
 
-                <Link
-                  to={`/books/${book._id}`}
-                  className="btn btn-sm btn-primary w-full"
-                >
-                  View Details
-                </Link>
+                  <Link
+                    to={`/books/${book._id}`}
+                    className="btn btn-outline btn-primary mt-2"
+                  >
+                    Details
+                  </Link>
+                </div>
               </div>
             ))}
+        </div>
 
+        {/* No Books */}
+        {!loading && books.length === 0 && (
+          <div className="text-center mt-10 text-gray-500">
+            No latest books found.
           </div>
         )}
 
         {/* View All Button */}
-        <div className="text-center mt-10">
-          <Link to="/books" className="btn btn-outline btn-primary">
+        <div className="text-center mt-12">
+          <Link
+            to="/books"
+            className="btn btn-primary"
+          >
             View All Books
           </Link>
         </div>
 
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,10 +1,17 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000"
+  baseURL: "http://localhost:5000",
+  withCredentials: false,
+  headers: {
+    "Content-Type": "application/json",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Expires": "0"
+  }
 });
 
 const useAxiosSecure = () => {
@@ -14,23 +21,22 @@ const useAxiosSecure = () => {
 
   useEffect(() => {
 
-    // Attach token before request
     const requestInterceptor = axiosSecure.interceptors.request.use(
       async (config) => {
 
         if (user) {
-          const token = await user.getIdToken();
-          config.headers.authorization = `Bearer ${token}`;
+          const token = await user.getIdToken(true);
+          config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;
-      }
+      },
+      (error) => Promise.reject(error)
     );
 
-    // Handle unauthorized response
     const responseInterceptor = axiosSecure.interceptors.response.use(
-      res => res,
-      async error => {
+      (response) => response,
+      async (error) => {
 
         if (error.response?.status === 401 ||
             error.response?.status === 403) {

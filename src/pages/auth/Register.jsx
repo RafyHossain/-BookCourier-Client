@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -8,9 +8,9 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
-
   const { registerUser, googleLogin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { register, handleSubmit, watch } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -18,16 +18,15 @@ const Register = () => {
 
   const imageFile = watch("photo");
 
-  const onSubmit = async (data) => {
+  const from = location.state?.from?.pathname || "/";
 
+  const onSubmit = async (data) => {
     try {
       setLoading(true);
 
       let photoURL = "";
 
-      // Upload to ImageBB
       if (data.photo && data.photo.length > 0) {
-
         const formData = new FormData();
         formData.append("image", data.photo[0]);
 
@@ -44,7 +43,6 @@ const Register = () => {
         photoURL = response.data.data.display_url;
       }
 
-      // Firebase register
       await registerUser(
         data.email,
         data.password,
@@ -52,11 +50,16 @@ const Register = () => {
         photoURL
       );
 
-      Swal.fire("Account Created!", "", "success");
-      navigate("/");
+      Swal.fire({
+        icon: "success",
+        title: "Account Created 🎉",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(from, { replace: true });
 
     } catch (error) {
-      console.error(error);
       Swal.fire("Error", error.message, "error");
     } finally {
       setLoading(false);
@@ -65,20 +68,32 @@ const Register = () => {
 
   const handleGoogleLogin = async () => {
     try {
+      setLoading(true);
+
       await googleLogin();
-      navigate("/");
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful 🎉",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(from, { replace: true });
+
     } catch (error) {
       Swal.fire("Error", error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center py-12 px-4">
-
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
 
         <h2 className="text-3xl font-bold text-center text-[#7f1d1d] mb-2">
-          Create Account 
+          Create Account
         </h2>
 
         <p className="text-center text-gray-500 mb-8 text-sm">
@@ -87,7 +102,6 @@ const Register = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-          {/* Name */}
           <input
             type="text"
             placeholder="Full Name"
@@ -95,7 +109,6 @@ const Register = () => {
             {...register("name", { required: true })}
           />
 
-          {/* Email */}
           <input
             type="email"
             placeholder="Email Address"
@@ -103,7 +116,6 @@ const Register = () => {
             {...register("email", { required: true })}
           />
 
-          {/* Photo Upload */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Upload Profile Photo
@@ -130,7 +142,6 @@ const Register = () => {
             )}
           </div>
 
-          {/* Password */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -147,7 +158,6 @@ const Register = () => {
             </span>
           </div>
 
-          {/* Register Button */}
           <button
             disabled={loading}
             className="w-full py-3 rounded-xl text-white font-semibold bg-[#7f1d1d] hover:bg-[#991b1b] transition"
@@ -157,14 +167,12 @@ const Register = () => {
 
         </form>
 
-        {/* Divider */}
         <div className="flex items-center my-6">
           <div className="flex-grow border-t"></div>
           <span className="mx-3 text-gray-400 text-sm">OR</span>
           <div className="flex-grow border-t"></div>
         </div>
 
-        {/* Google Button */}
         <button
           onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-xl py-3 hover:bg-gray-50 transition"
@@ -173,10 +181,12 @@ const Register = () => {
           Continue with Google
         </button>
 
-        {/* Redirect */}
         <p className="text-center text-gray-600 text-sm mt-6">
           Already have an account?
-          <Link to="/login" className="text-[#7f1d1d] font-semibold ml-2 hover:underline">
+          <Link
+            to="/login"
+            className="text-[#7f1d1d] font-semibold ml-2 hover:underline"
+          >
             Login
           </Link>
         </p>

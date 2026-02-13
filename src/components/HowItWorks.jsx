@@ -40,18 +40,16 @@ const HowItWorks = () => {
         
         {/* Header */}
         <div className="text-center mb-16">
-         
-          <h2 className="text-5xl text-primary md:text-5xl font-black text-slate-900 mt-3 mb-4">
-            How It Works
+          <span className="text-[#b91c1c] font-bold tracking-widest uppercase text-sm bg-red-50 px-3 py-1 rounded-full">
+            Process
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-3 mb-4">
+            How It <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">Works</span>
           </h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             Get your favorite books in just 4 simple steps. We make reading accessible and hassle-free.
           </p>
-
-         
         </div>
-
-        
 
         {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
