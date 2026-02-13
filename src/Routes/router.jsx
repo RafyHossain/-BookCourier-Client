@@ -161,10 +161,6 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Optional Catch-All Route
-  // {
-  //   path: "*",
-  //   element: <NotFound />
-  // }
+  
 
 ]);
