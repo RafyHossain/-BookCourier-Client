@@ -13,17 +13,20 @@ import BookDetails from "../pages/BookDetails/BookDetails";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-// User Dashboard Pages
+// User Dashboard
 import MyOrder from "../pages/MyOrder/MyOrder";
 import MyProfile from "../pages/MyProfile/MyProfile";
 import Invoices from "../pages/Invoices/Invoices";
 import Payment from "../Payment/Payment";
 import LibrarianRequest from "../pages/LibrarianRequest/LibrarianRequest";
 
-// Librarian
+// Librarian Pages
 import AddBook from "../pages/AddBook/AddBook";
+import MyBooks from "../pages/librarian/MyBooks";
+import EditBook from "../pages/librarian/EditBook";
+import LibrarianOrders from "../pages/librarian/LibrarianOrders";
 
-// Admin
+// Admin Pages
 import ManageUsers from "../pages/ManageUsers/ManageUsers";
 import ManageBooks from "../pages/admin/ManageBooks";
 import LibrarianRequests from "../pages/admin/LibrarianRequests";
@@ -34,7 +37,7 @@ import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
-  // ===== PUBLIC ROUTES =====
+  // ================= PUBLIC =================
   {
     path: "/",
     element: <MainLayout />,
@@ -45,7 +48,7 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // ===== AUTH ROUTES =====
+  // ================= AUTH =================
   {
     path: "/",
     element: <AuthLayout />,
@@ -55,7 +58,7 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // ===== DASHBOARD ROUTES =====
+  // ================= DASHBOARD =================
   {
     path: "/dashboard",
     element: (
@@ -93,6 +96,30 @@ export const router = createBrowserRouter([
         element: (
           <LibrarianRoute>
             <AddBook />
+          </LibrarianRoute>
+        ),
+      },
+      {
+        path: "my-books",
+        element: (
+          <LibrarianRoute>
+            <MyBooks />
+          </LibrarianRoute>
+        ),
+      },
+      {
+        path: "edit-book/:id",
+        element: (
+          <LibrarianRoute>
+            <EditBook />
+          </LibrarianRoute>
+        ),
+      },
+      {
+        path: "librarian-orders",
+        element: (
+          <LibrarianRoute>
+            <LibrarianOrders />
           </LibrarianRoute>
         ),
       },
