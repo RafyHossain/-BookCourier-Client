@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../../components/Loading";
 
 const EditBook = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const EditBook = () => {
     navigate("/dashboard/my-books");
   };
 
-  if (!book) return <div>Loading...</div>;
+  if (!book) return <Loading></Loading>;
 
   return (
     <form onSubmit={handleUpdate} className="space-y-4">

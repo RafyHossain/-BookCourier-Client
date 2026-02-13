@@ -16,6 +16,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserRole from "../../hooks/useUserRole";
 import useAuth from "../../hooks/useAuth";
 import { motion } from "framer-motion";
+import Loading from "../../components/Loading";
 
 const DashboardHome = () => {
   const { role, roleLoading } = useUserRole();
@@ -144,9 +145,7 @@ const DashboardHome = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-20 font-semibold">
-        Loading Dashboard...
-      </div>
+      <Loading></Loading>
     );
   }
 

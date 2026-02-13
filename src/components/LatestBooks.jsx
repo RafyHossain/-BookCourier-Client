@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { FaArrowRight } from "react-icons/fa";
+import Loading from "./Loading";
 
 const LatestBooks = () => {
   const axiosSecure = useAxiosSecure();
@@ -50,9 +51,7 @@ const LatestBooks = () => {
 
         {/* Loading */}
         {loading && (
-          <div className="text-center text-lg font-semibold py-20">
-            Loading latest books...
-          </div>
+          <Loading></Loading>
         )}
 
         {/* Books Grid */}

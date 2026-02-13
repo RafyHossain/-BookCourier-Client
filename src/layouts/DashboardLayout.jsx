@@ -21,6 +21,7 @@ import {
   FaChartPie
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import Loading from "../components/Loading";
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
@@ -31,11 +32,7 @@ const DashboardLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   if (roleLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-slate-100">
-        <div className="loading loading-ring loading-lg text-red-600"></div>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
  const handleLogout = async () => {

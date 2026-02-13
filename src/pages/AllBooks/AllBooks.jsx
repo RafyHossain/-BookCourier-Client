@@ -5,6 +5,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { FaSearch } from "react-icons/fa";
+import Loading from "../../components/Loading";
 
 const AllBooks = () => {
   const axiosSecure = useAxiosSecure();
@@ -99,9 +100,7 @@ const AllBooks = () => {
 
         {/* Loading */}
         {loading && (
-          <div className="text-center py-20 text-lg font-semibold">
-            Loading books...
-          </div>
+          <Loading></Loading>
         )}
 
         {/* Books Grid */}

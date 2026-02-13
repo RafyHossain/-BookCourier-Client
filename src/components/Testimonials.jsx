@@ -73,7 +73,7 @@ const Testimonials = () => {
           className="text-center mb-20"
         >
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-3 mb-4">
-            Loved by  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b91c1c] to-[#ef4444]">Readers</span>
+            Loved by  <span className="text-transparent text-primary">Readers</span>
           </h2>
           
           <p className="text-slate-500 mt-4 text-lg">

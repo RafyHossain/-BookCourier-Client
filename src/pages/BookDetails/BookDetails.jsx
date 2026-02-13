@@ -4,6 +4,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { FaShoppingCart, FaUser, FaStar, FaHeart } from "react-icons/fa";
+import Loading from "../../components/Loading";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -110,7 +111,7 @@ const BookDetails = () => {
     }
   };
 
-  if (!book) return <div className="text-center mt-20">Loading...</div>;
+  if (!book) return <Loading></Loading>;
 
   return (
     <div className="max-w-5xl mx-auto py-20 px-6 space-y-12">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import Loading from "../../components/Loading";
 
 const ManageBooks = () => {
   const axiosSecure = useAxiosSecure();
@@ -126,9 +127,7 @@ const ManageBooks = () => {
         className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-slate-200 p-6"
       >
         {loading ? (
-          <div className="text-center py-20 text-indigo-600 font-medium">
-            Loading Books...
-          </div>
+          <Loading></Loading>
         ) : filteredBooks.length === 0 ? (
           <div className="text-center py-20 text-slate-400 text-lg">
             No books found
