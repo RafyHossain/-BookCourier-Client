@@ -18,7 +18,8 @@ import {
   FaSignOutAlt,
   FaTruck,
   FaHeart,
-  FaChartPie
+  FaChartPie,
+  FaUserCheck
 } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Loading from "../components/Loading";
@@ -199,6 +200,16 @@ const DashboardLayout = () => {
                 label="Manage Books"
                 collapsed={collapsed}
               />
+
+              
+
+<NavItem
+  to="/dashboard/librarian-requests"
+  icon={<FaUserCheck />}
+  label="Librarian Requests"
+  collapsed={collapsed}
+/>
+
             </>
           )}
 

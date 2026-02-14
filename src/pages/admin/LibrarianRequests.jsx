@@ -39,7 +39,7 @@ const LibrarianRequests = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-6">
+      <h2 className="text-3xl text-primary font-bold mb-6">
         Librarian Requests
       </h2>
 
