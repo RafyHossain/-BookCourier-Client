@@ -4,6 +4,8 @@ import Coverage from "../../components/Coverage";
 import WhyChoose from "../../components/WhyChoose";
 import HowItWorks from "../../components/HowItWorks";
 import Testimonials from "../../components/Testimonials";
+import Faq from "../../components/Faq";
+import Newsletter from "../../components/Newsletter";
 
 const Home = () => {
   return (
@@ -19,20 +21,21 @@ const Home = () => {
         <BannerSlider />
       </div>
 
-      {/* Latest Books */}
+      
       <LatestBooks />
 
-      {/* Coverage Map */}
       <Coverage />
 
-      {/* Why Choose */}
+      
       <WhyChoose />
 
-      {/* How It Works */}
       <HowItWorks />
 
-      {/* Testimonials */}
+      
       <Testimonials />
+      <Faq></Faq>
+
+      <Newsletter></Newsletter>
 
     </div>
   );
