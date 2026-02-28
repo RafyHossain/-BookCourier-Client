@@ -86,7 +86,7 @@ const Contact = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl backdrop-blur-sm">📍</div>
-                  <p className="text-lg font-medium">Mirzaganj, Barisal, Bangladesh</p>
+                  <p className="text-lg font-medium">Baraigram, Natore, Bangladesh</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl backdrop-blur-sm">📧</div>
@@ -94,7 +94,7 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl backdrop-blur-sm">📞</div>
-                  <p className="text-lg font-medium">+880 1234 567 890</p>
+                  <p className="text-lg font-medium">+8801784038430</p>
                 </div>
               </div>
             </div>
