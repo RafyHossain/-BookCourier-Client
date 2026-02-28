@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useUserRole from "../hooks/useUserRole"; // তোমার কাস্টম হুক
 import Swal from "sweetalert2";
-import logo from "./../assets/bklogo.png";
+import logo from "./../assets/bklogoup.png";
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(AuthContext);
@@ -126,10 +126,10 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
           <img
-            src={logo}
-            alt="Logo"
-            className="h-10 md:h-13 w-auto object-contain"
-          />
+  src={logo}
+  alt="Logo"
+  className="h-14 md:h-16 lg:h-16 w-auto object-contain transition-all duration-300"
+/>
           <span className="text-xl md:text-2xl font-black text-base-content ml-2 hidden sm:block">
             Book<span className="text-primary">Courier</span>
           </span>
