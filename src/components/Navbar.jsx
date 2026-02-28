@@ -2,7 +2,7 @@ import { FaMoon, FaSun, FaBars } from "react-icons/fa";
 import { useState, useEffect, useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
-import useUserRole from "../hooks/useUserRole";
+import useUserRole from "../hooks/useUserRole"; // তোমার কাস্টম হুক
 import Swal from "sweetalert2";
 import logo from "./../assets/bklogo.png";
 
@@ -47,14 +47,12 @@ const Navbar = () => {
     if (result.isConfirmed) {
       try {
         await logoutUser();
-
         await Swal.fire({
           icon: "success",
           title: "Logged out successfully",
           showConfirmButton: false,
           timer: 1500,
         });
-
         navigate("/login");
       } catch (error) {
         Swal.fire("Error", error.message, "error");
@@ -66,13 +64,15 @@ const Navbar = () => {
     `px-5 py-2 rounded-lg font-bold transition-all duration-300 text-sm ${
       isActive
         ? "btn-primary text-white shadow-lg shadow-red-500/40 transform scale-105"
-        : "text-base-content/70 hover:text-red-600 hover:bg-red-50"
+        : "text-base-content/70 hover:text-red-600 hover:bg-red-50 dark:hover:bg-slate-800"
     }`;
 
+  
   const navItems = (
     <>
       <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
       <li><NavLink to="/books" className={navLinkClass}>Books</NavLink></li>
+      <li><NavLink to="/contact" className={navLinkClass}>Contact</NavLink></li>
 
       {user && (
         <li>
@@ -82,6 +82,7 @@ const Navbar = () => {
         </li>
       )}
 
+      {/* Role Based Routes */}
       {!roleLoading && role === "admin" && (
         <li>
           <NavLink to="/dashboard/manage-users" className={navLinkClass}>
@@ -109,6 +110,7 @@ const Navbar = () => {
       }`}
     >
       <div className="navbar-start w-auto lg:w-1/4">
+        {/* Mobile Menu */}
         <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle text-red-600">
             <FaBars className="text-xl" />
@@ -121,15 +123,20 @@ const Navbar = () => {
           </ul>
         </div>
 
+        {/* Logo */}
         <Link to="/" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
           <img
             src={logo}
             alt="Logo"
-            className="h-12 md:h-16 w-auto object-contain"
+            className="h-10 md:h-13 w-auto object-contain"
           />
+          <span className="text-xl md:text-2xl font-black text-base-content ml-2 hidden sm:block">
+            Book<span className="text-primary">Courier</span>
+          </span>
         </Link>
       </div>
 
+      {/* Desktop Menu */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-2 px-1">
           {navItems}
@@ -137,49 +144,58 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end flex-1 gap-3 justify-end">
-
+        {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="btn btn-ghost btn-circle btn-sm hover:bg-red-50 hover:text-red-600 transition-colors"
+          className="btn btn-ghost btn-circle btn-sm hover:bg-base-200 transition-colors"
         >
-          {theme === "light" ? <FaMoon size={16} /> : <FaSun size={18} className="text-yellow-500" />}
+          {theme === "light" ? <FaMoon size={16} className="text-slate-600" /> : <FaSun size={18} className="text-yellow-500" />}
         </button>
 
         {user ? (
           <div className="flex items-center gap-4 pl-4 border-l border-base-300">
-
-            <div className="flex flex-col items-end leading-tight">
-              <span className="text-[10px] font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider border border-red-200">
-                {role || "User"}
-              </span>
-            </div>
-
-            <div
-              className="tooltip tooltip-bottom tooltip-error font-bold z-50"
-              data-tip={user.displayName}
-            >
-              <div className="avatar cursor-pointer online">
-                <div className="w-10 h-10 rounded-full ring-2 ring-red-600 ring-offset-2 ring-offset-base-100 transition-transform hover:scale-110 shadow-lg shadow-red-500/20">
-                  <img
-                    src={user.photoURL || "https://i.ibb.co/2kR8V2s/user.png"}
-                    alt="user"
-                  />
+            
+            {/*  Profile Dropdown  */}
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                
+                
+                <div className="hidden sm:flex flex-col items-end leading-tight mr-1">
+                  <span className="text-sm font-bold text-base-content">{user.displayName || "User"}</span>
+                  <span className="text-[10px] font-bold text-red-700 bg-red-100 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded-full uppercase tracking-wider border border-red-200 dark:border-red-800">
+                    {role || "User"}
+                  </span>
+                </div>
+                
+               
+                <div className="avatar online">
+                  <div className="w-10 h-10 rounded-full ring-2 ring-red-600 ring-offset-2 ring-offset-base-100 shadow-md transition-transform hover:scale-110">
+                    <img src={user.photoURL || "https://i.ibb.co/2kR8V2s/user.png"} alt="user" />
+                  </div>
                 </div>
               </div>
+              
+              {/* Dropdown Menu Content */}
+              <ul tabIndex={0} className="mt-4 z-[1] p-3 shadow-xl menu menu-sm dropdown-content bg-base-100 rounded-2xl w-60 border border-base-200">
+                <li className="px-4 py-3 border-b border-base-200 mb-2 pointer-events-none">
+                  <span className="block text-sm font-bold text-base-content truncate">{user.displayName || "User"}</span>
+                  <span className="block text-xs text-base-content/60 truncate">{user.email}</span>
+                </li>
+                <li><Link to="/dashboard/profile" className="hover:text-red-600 py-2.5 font-medium">My Profile</Link></li>
+                <li><Link to="/dashboard" className="hover:text-red-600 py-2.5 font-medium">Dashboard</Link></li>
+                <li className="mt-1">
+                  <button onClick={handleLogout} className="text-red-600 font-bold hover:bg-red-50 dark:hover:bg-red-900/20 py-2.5">
+                    Logout
+                  </button>
+                </li>
+              </ul>
             </div>
-
-            <button
-              onClick={handleLogout}
-              className="btn btn-sm text-white font-bold px-6 rounded-lg btn-primary hover:from-red-800 hover:to-red-600 shadow-md shadow-red-500/30 border-none"
-            >
-              Logout
-            </button>
           </div>
         ) : (
           <div className="flex items-center gap-2">
             <Link
               to="/login"
-              className="btn btn-ghost btn-sm rounded-lg hover:text-red-600 hover:bg-red-50 font-bold"
+              className="btn btn-ghost btn-sm rounded-lg hover:text-red-600 hover:bg-red-50 font-bold hidden sm:flex"
             >
               Login
             </Link>
