@@ -1,16 +1,133 @@
-# React + Vite
+BookCourier – Library-to-Home Delivery System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Assignment ID: B12-A11_category-19
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Live Site: https://bookcrir.web.app/
 
-## React Compiler
+Project Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+BookCourier is a full-stack library delivery management system where users can order books from nearby libraries and receive them at home.
 
-## Expanding the ESLint configuration
+The system includes role-based dashboards for:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+User
+
+Librarian
+
+Admin
+
+Key Features
+
+Email/Password Authentication
+
+Google Social Login
+
+JWT Protected Backend Routes
+
+Role-Based Authorization (User, Librarian, Admin)
+
+Book Search Functionality
+
+Price Sorting (High → Low / Low → High)
+
+Order System with Status Tracking
+
+Wishlist Feature
+
+Review & Rating System
+
+Dynamic Dashboard with Charts & Graphs
+
+Fully Responsive Design (Mobile, Tablet, Desktop)
+
+Light & Dark Mode
+
+User Dashboard
+
+View My Orders (Cancel / Pay)
+
+Manage Wishlist
+
+View Invoices
+
+Update Profile
+
+Librarian Dashboard
+
+Add Book (Published / Unpublished)
+
+Manage Own Books
+
+Manage Orders (Update Status / Cancel)
+
+🛠 Admin Dashboard
+
+Manage All Users
+
+Publish / Unpublish Books
+
+Delete Books (with related orders)
+
+Technologies Used
+Frontend
+
+React
+
+React Router DOM
+
+Tailwind CSS
+
+DaisyUI
+
+Axios
+
+Framer Motion
+
+Recharts
+
+Swiper JS
+
+SweetAlert2
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB
+
+Firebase Admin SDK
+
+JSON Web Token (JWT)
+
+dotenv
+
+Security
+
+Firebase credentials secured using Environment Variables
+
+MongoDB credentials secured using Environment Variables
+
+JWT Token Verification Middleware
+
+Protected Private Routes
+
+Production-ready deployment configuration
+
+Conclusion
+
+This project demonstrates:
+
+Full-stack web development
+
+Authentication & Authorization
+
+Role-based access control
+
+Secure API integration
+
+Dynamic data visualization
+
+Modern and responsive UI/UX design
