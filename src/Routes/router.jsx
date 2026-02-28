@@ -41,6 +41,7 @@ import Contact from "../pages/Contact/Contact";
 
 
 
+
 export const router = createBrowserRouter([
 
   // ================= PUBLIC =================
@@ -159,6 +160,7 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      
     ],
   },
 
