@@ -37,9 +37,9 @@ import LibrarianRequests from "../pages/admin/LibrarianRequests";
 import PrivateRoute from "./PrivateRoute";
 import LibrarianRoute from "./LibrarianRoute";
 import AdminRoute from "./AdminRoute";
+import Contact from "../pages/Contact/Contact";
 
-// Optional 404 Page
-// import NotFound from "../pages/NotFound/NotFound";
+
 
 export const router = createBrowserRouter([
 
@@ -50,6 +50,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "books", element: <AllBooks /> },
+      { path: "contact", element: <Contact /> },
 
       {
         path: "books/:id",
