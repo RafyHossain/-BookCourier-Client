@@ -3,6 +3,9 @@ BookCourier – Library-to-Home Delivery System
 Assignment ID: B12-A11_category-19
 
 
+Admin Email: rafy1234@gmail.com
+Admin Password: 1234Ra
+
 Live Site: https://bookcrir.web.app/
 
 Project Overview
