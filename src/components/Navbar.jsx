@@ -181,7 +181,7 @@ const Navbar = () => {
                   <span className="block text-sm font-bold text-base-content truncate">{user.displayName || "User"}</span>
                   <span className="block text-xs text-base-content/60 truncate">{user.email}</span>
                 </li>
-                <li><Link to="/dashboard/profile" className="hover:text-red-600 py-2.5 font-medium">My Profile</Link></li>
+                <li><Link to="/dashboard/my-profile" className="hover:text-red-600 py-2.5 font-medium">My Profile</Link></li>
                 <li><Link to="/dashboard" className="hover:text-red-600 py-2.5 font-medium">Dashboard</Link></li>
                 <li className="mt-1">
                   <button onClick={handleLogout} className="text-red-600 font-bold hover:bg-red-50 dark:hover:bg-red-900/20 py-2.5">
